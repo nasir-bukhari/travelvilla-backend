@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
     'rest_framework',
     'corsheaders',
     'djoser',
@@ -46,6 +47,8 @@ INSTALLED_APPS = [
     'social_django',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+    'routes',
+
 ]
 
 MIDDLEWARE = [
@@ -88,7 +91,8 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        # 'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'travel_villa',
         'USER': 'postgres',
         'PASSWORD': 'admin',
@@ -100,13 +104,13 @@ DATABASES = {
 
 # Email
 # email = travelvilla3@gmail.com
-# app_password = mjbkmdmgqulhouli
+# app_password = kvekibnpstzvwymp
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'travelvilla3@gmail.com'
-EMAIL_HOST_PASSWORD = 'mjbkmdmgqulhouli'
+EMAIL_HOST_PASSWORD = 'kvekibnpstzvwymp'
 EMAIL_USE_TLS = True
 
 # Password validation
@@ -190,7 +194,7 @@ DJOSER = {
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -207,3 +211,13 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 AUTH_USER_MODEL = 'users.UserAccount'
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# use this if setting up on Windows 10 with GDAL installed from OSGeo4W using defaults
+if os.name == 'nt':
+    VIRTUAL_ENV_BASE = os.environ['VIRTUAL_ENV']
+    os.environ['PATH'] = os.path.join(
+        VIRTUAL_ENV_BASE, r'.\Lib\site-packages\osgeo') + ';' + os.environ['PATH']
+    os.environ['PROJ_LIB'] = os.path.join(
+        VIRTUAL_ENV_BASE, r'.\Lib\site-packages\osgeo\data\proj') + ';' + os.environ['PATH']
