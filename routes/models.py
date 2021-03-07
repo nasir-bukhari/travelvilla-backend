@@ -14,4 +14,4 @@ class JpStopsLahore(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'jp_stops_lahore'
+        db_table = 'JP_Stops_Lahore'

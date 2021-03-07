@@ -27,6 +27,11 @@ def find_nearest_station(request):
     point.transform(32643)
     qs = JpStopsLahore.objects.all().annotate(distance=Distance("geom", point)).order_by("distance")[:5]
     for obj in qs:
-        stop_names.append(obj.stop_n)
+        geom_4326 = obj.geom.transform(4326, True)
+        stop_names.append({
+            "Stop Name" : obj.stop_n,
+            "Longitude" : geom_4326.x,
+            "Latitude" : geom_4326.y
+        })
 
     return JsonResponse({'bus_stops': stop_names})
